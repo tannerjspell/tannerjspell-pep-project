@@ -21,7 +21,7 @@ public class MessageService {
     }
 
     public Message createMessage(Message message) {
-        if (accountDAO.getAccountById(message.getPosted_by()) == null) {
+        if (message.getMessage_text() == null || message.getMessage_text().isBlank() || message.getMessage_text().length() > 255 || accountDAO.getAccountById(message.getPosted_by()) == null) {
             return null;
         }
         
@@ -46,6 +46,10 @@ public class MessageService {
     }
 
     public Message updateMessage(int messageId, String messageText) {
+        if (messageText == null || messageText.isBlank() || messageText.length() > 255){
+            return null;
+        }
+        
         Message existingMessage = messageDAO.getMessageById(messageId);
         if (existingMessage == null) {
             return null;
